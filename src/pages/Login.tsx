@@ -62,7 +62,7 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Correo electrónico"
             required
-            className="w-full px-4 py-3 rounded-xl bg-card-bg border border-border text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="w-full px-4 py-3 rounded-xl bg-card-bg border border-border placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
 
           <input
@@ -71,7 +71,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Contraseña"
             required
-            className="w-full px-4 py-3 rounded-xl bg-card-bg border border-border text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="w-full px-4 py-3 rounded-xl bg-card-bg border border-border placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
 
           {/* Mensaje de estado */}
