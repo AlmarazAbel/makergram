@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  /* MODO CLARO - Tonos limpios, azulados y profesionales */
+  --background: #f4f7f9;        /* Fondo gris-celeste muy claro */
+  --foreground: #0f172a;        /* Texto principal (Slate 900) */
+  --primary: #1e40af;           /* Azul rey corporativo/tecnológico (Blue 800) */
+  --primary-light: #3b82f6;     /* Azul brillante para elementos activos (Blue 500) */
+  --accent: #0ea5e9;            /* Celeste "Maker" / Cian eléctrico (Sky 500) */
+  --card-bg: #ffffff;           /* Fondo de las publicaciones */
+  --border: #e2e8f0;            /* Bordes limpios (Slate 200) */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-accent: var(--accent);
+  --color-card-bg: var(--card-bg);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* MODO OSCURO - Estilo Tech, filamentos y pantallas de software 3D */
+    --background: #0b0f19;      /* Azul marino profundo tirando a negro */
+    --foreground: #f8fafc;      /* Texto casi blanco para alto contraste */
+    --primary: #3b82f6;         /* Azul brillante como color principal */
+    --primary-light: #0ea5e9;   /* Celeste para destacar textos o iconos */
+    --accent: #38bdf8;          /* Celeste/Cian vivo para el botón "+" y acciones principales */
+    --card-bg: #111827;         /* Fondo gris azulado oscuro para los posts (Gray 900) */
+    --border: #1e293b;          /* Bordes sutiles en modo oscuro (Slate 800) */
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
