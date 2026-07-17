@@ -1,12 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getTimeAgo } from "../utils/time";
-import { posts as initialPosts, type Post } from "../mocks/posts";
+// import { posts as initialPosts, type Post } from "../mocks/posts";
 import { HeartIcon } from "../components/HeartIcon";
 import { AppHeader } from "../components/AppHeader";
+import { supabase } from "../lib/client";
 
-function Modal({ post, onClose }: { post: Post; onClose: () => void }) {
+const DEFAULT_AVATAR =
+  "https://images.pexels.com/photos/7163703/pexels-photo-7163703.jpeg";
+
+interface Post_rank{
+   id: number | string;
+    user_id: string;
+    image_url: string;
+    caption: string;
+    likes: number;
+    created_at: Date;  
+    profile?: {
+      username: string;
+      avatar_url: string | null;
+    };  
+}
+
+function Modal({ post, onClose }: { post: Post_rank; onClose: () => void }) {
   const username = post.profile?.username || "default_user";
-  const avatarUrl = post.profile?.avatar_url;
+  const avatarUrl = post.profile?.avatar_url || DEFAULT_AVATAR;
 
   return (
     <div
@@ -90,9 +107,26 @@ function Modal({ post, onClose }: { post: Post; onClose: () => void }) {
 }
 
 export default function Rank() {
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [selectedPost, setSelectedPost] = useState<Post_rank | null>(null);
+  const [posts, setPosts] = useState<Post_rank[]>([]);
 
-  const [posts] = useState<Post[]>(initialPosts);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const { data, error } = await supabase
+        .from("posts_new")
+        .select("id, image_url, caption, likes, user_id, created_at")
+        .gt("likes", 5)
+        .order("likes", { ascending: false });
+
+      if (error) {
+        console.error("Error al obtener los posts:", error);
+      } else {
+        console.log("Posts obtenidos:", data);
+        setPosts(data);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
