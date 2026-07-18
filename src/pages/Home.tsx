@@ -1,12 +1,31 @@
-import { useState} from "react";
+import { useEffect, useState } from "react";
 import { PostCard } from "../components/PostCard";
 import { AppHeader } from "../components/AppHeader";
-import { posts as initialPosts, type Post } from "../mocks/posts";
+import { type Post } from "../mocks/posts";
+import { supabase } from "../lib/client";
 
 export default function Home() {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [posts, setPosts] = useState<Post[]>([]);
 
-const handleLike = (postId: number | string) => {
+   useEffect(() => {
+    const fetchPosts = async () => {
+      const { data, error } = await supabase
+        .from("posts_new")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error al obtener los posts:", error);
+      } else {
+        console.log("Posts obtenidos:", data);
+        setPosts(data);
+      }
+    };
+    fetchPosts();
+  }, []);
+
+
+  const handleLike = (postId: number | string) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
         post.id === postId
@@ -20,7 +39,6 @@ const handleLike = (postId: number | string) => {
     );
   };
 
-  
   return (
     <div className="min-h-screen bg-background">
       <AppHeader title="Makergram" />
@@ -29,11 +47,7 @@ const handleLike = (postId: number | string) => {
       <main className="max-w-lg mx-auto px-4 py-6">
         <div className="flex flex-col gap-6">
           {posts.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              onLike={handleLike}
-            />
+            <PostCard key={post.id} post={post} onLike={handleLike} />
           ))}
         </div>
       </main>
